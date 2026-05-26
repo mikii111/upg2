@@ -5,6 +5,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.extension.TestWatcher;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -21,8 +25,23 @@ class LoginTests {
     private WebDriver driver;
     private LoginPage loginPage;
 
+    @RegisterExtension
+    TestWatcher logWatcher = new TestWatcher() {
+        @Override
+        public void testSuccessful(ExtensionContext context) {
+            System.out.println("PASS: " + context.getDisplayName());
+        }
+
+        @Override
+        public void testFailed(ExtensionContext context, Throwable cause) {
+            System.out.println("FAIL: " + context.getDisplayName() + " - " + cause.getMessage());
+        }
+    };
+
     @BeforeEach
-    void setUp() {
+    void setUp(TestInfo testInfo) {
+        System.out.println("START: " + testInfo.getDisplayName());
+
         ChromeOptions options = new ChromeOptions();
         if (Boolean.parseBoolean(System.getenv("CI")) || Boolean.parseBoolean(System.getenv("HEADLESS"))) {
             options.addArguments("--headless=new");
