@@ -2,7 +2,7 @@
 
 Maven-projekt med Selenium + JUnit 5 för inloggningstester mot [saucedemo.com](https://www.saucedemo.com/).
 
-> Denna fil är skriven av Copilot.
+> Denna fil är skriven av Copilot direkt i github :) 
 
 ## Köra lokalt
 
